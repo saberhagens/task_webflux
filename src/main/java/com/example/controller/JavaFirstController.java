@@ -1,42 +1,46 @@
-package com.example.javafirst.controller;
+package com.example.controller;
 
+import com.example.service.JavaFirstInterface;
+import com.example.service.JavaFirstService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import static c.e.javafirst.service.JavaFirstService.*;
 
 @RestController
 public class JavaFirstController {
 
+    @Autowired
+    JavaFirstInterface javaFirst =  new JavaFirstService();
 
     @GetMapping("/simple")
     public String simple() {
-        return "11111";
+        return javaFirst.getSimple();
     }
 
     @GetMapping("/react")
     public Mono<String> react() {
-        return Mono.just("22222");
+        return javaFirst.getReact();
     }
 
-    @GetMapping("/reactDelay")
-    public Mono<String> reactDelay() {
-        return getDelay();
+    @GetMapping("/delay")
+    public Mono<String> delay() {
+        return javaFirst.getDelay();
     }
 
     @GetMapping("/double")
     public Flux<String> doubleRequest() {
-        return getDoubleRequest();
+        return javaFirst.getDoubleRequest();
     }
 
     @GetMapping("/multiple")
     public Flux<String> multipleRequest() {
-        return getMultipleRequest();
+        return javaFirst.getMultipleRequest();
     }
 
     @GetMapping("/webclient")
     public Mono<String> webClient() {
-        return getWebClient("/react");
+        return javaFirst.getWebClient("/react");
     }
 }
